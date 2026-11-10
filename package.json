@@ -1,0 +1,12 @@
+{
+  "name": "y-json",
+  "version": "1.0.0",
+  "description": "Library for interfacing with yjs through simple json object-esque operations.",
+  "license": "ISC",
+  "author": "joegar000",
+  "type": "module",
+  "main": "index.ts",
+  "scripts": {
+    "test": "jest"
+  }
+}
