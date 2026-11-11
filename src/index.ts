@@ -65,4 +65,3 @@ export {
 };
 export * from "./backing.ts";
 export type * from "./types.ts";
-export * from "./mobxify.ts";

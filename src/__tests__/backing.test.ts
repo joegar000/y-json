@@ -5,9 +5,9 @@ import {
   bindMap,
   getY,
   getYSafe,
-  mobxify,
   type YJSON,
 } from "../index.ts";
+import { mobxify } from "../mobx.ts";
 
 describe("Yjs backing values", () => {
   test("returns backing maps and arrays", () => {

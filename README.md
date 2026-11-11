@@ -1,15 +1,15 @@
 # y-json
 
-JSON-like bindings for Yjs maps and arrays with MobX reactivity.
+JSON-like bindings for Yjs maps and arrays with optional MobX integration.
 
 ## Installation
 
 ```sh
-npm install y-json yjs mobx
+npm install y-json yjs
 ```
 
-`yjs` and `mobx` are peer dependencies so the application and this library
-operate on the same runtime instances.
+`yjs` is a peer dependency so the application and this library operate on the
+same runtime instance.
 
 ## Usage
 
@@ -48,9 +48,14 @@ items.splice(1, 1, 4);
 
 Use `mobxify` when reads should participate in MobX reactions:
 
+```sh
+npm install mobx
+```
+
 ```ts
 import { autorun } from "mobx";
-import { bindMap, mobxify, type YJSON } from "y-json";
+import { bindMap, type YJSON } from "y-json";
+import { mobxify } from "y-json/mobx";
 import * as Y from "yjs";
 
 const doc = new Y.Doc();
@@ -70,7 +75,8 @@ symbols, or `undefined` throws a `TypeError`.
 
 - `bindMap(yMap)` creates a JSON-like object backed by a `Y.Map`.
 - `bindArray(yArray)` creates an array-like object backed by a `Y.Array`.
-- `mobxify(value)` adds MobX observation to a bound map or array.
+- `mobxify(value)` from `y-json/mobx` adds MobX observation to a bound map or
+  array.
 - `getY(value)` returns the backing Yjs type or throws for an unbound value.
 - `getYSafe(value)` returns the backing Yjs type or `null`.
 
