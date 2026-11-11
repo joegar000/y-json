@@ -1,5 +1,5 @@
 import * as Y from "yjs";
-import { isJSONObject, isJSONArray, isJSONValue } from "es-toolkit";
+import { isJSONObject, isJSONArray, isJSONValue } from "es-toolkit/predicate";
 import type {
   BindContext,
   BoundArray,
