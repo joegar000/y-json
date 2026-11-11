@@ -35,10 +35,10 @@
     "build": "npm run clean && tsc -p tsconfig.build.json",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "typecheck": "tsc",
-    "lint:package": "publint && node scripts/check-package-types.mjs",
+    "lint:package": "publint && attw --pack . --profile esm-only",
     "check": "npm run typecheck && npm test -- --runInBand && npm run lint:package",
     "prepack": "npm run build",
-    "prepublishOnly": "npm run check"
+    "prepublishOnly": "npm run typecheck && npm test -- --runInBand"
   },
   "dependencies": {
     "es-toolkit": "^1.53.2"
