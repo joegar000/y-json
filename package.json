@@ -10,8 +10,7 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "default": "./dist/index.js"
+      "import": "./dist/index.js"
     }
   },
   "files": [
@@ -26,7 +25,10 @@
     "build": "npm run clean && tsc -p tsconfig.build.json",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "typecheck": "tsc",
-    "prepack": "npm run build"
+    "lint:package": "publint && attw --pack . --profile esm-only",
+    "check": "npm run typecheck && npm test -- --runInBand && npm run lint:package",
+    "prepack": "npm run build",
+    "prepublishOnly": "npm run check"
   },
   "dependencies": {
     "es-toolkit": "^1.53.2"
@@ -36,10 +38,12 @@
     "yjs": "^13.6.33"
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.5",
     "@types/jest": "^30.0.0",
     "@types/node": "^26.6.6",
     "jest": "^30.5.2",
     "mobx": "^7.1.5",
+    "publint": "^0.3.25",
     "typescript": "^7.0.2",
     "yjs": "^13.6.33"
   }
