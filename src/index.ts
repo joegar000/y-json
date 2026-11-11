@@ -1,8 +1,16 @@
 import * as Y from "yjs";
-import { isJSONObject, isJSONArray, isJSONValue, curryRight } from "es-toolkit";
-import type { YJSON, BindContext, JSONPrimitive } from "./types";
-import { bindMap } from "./map";
-import { bindArray } from "./array";
+import { isJSONObject, isJSONArray, isJSONValue } from "es-toolkit";
+import type {
+  BindContext,
+  BoundArray,
+  BoundMap,
+  JSON,
+  JSONObject,
+  JSONPrimitive,
+  YJSON,
+} from "./types";
+import { bindMap as bindMapWithContext } from "./map";
+import { bindArray as bindArrayWithContext } from "./array";
 
 const context: BindContext = {
   cache: new WeakMap(),
@@ -27,9 +35,9 @@ const context: BindContext = {
     return val;
   },
   jsFromY(value) {
-    if (value instanceof Y.Map) return bindMap(value, context);
+    if (value instanceof Y.Map) return bindMapWithContext(value, context);
 
-    if (value instanceof Y.Array) return bindArray(value, context);
+    if (value instanceof Y.Array) return bindArrayWithContext(value, context);
 
     return value as JSONPrimitive;
   },
@@ -39,10 +47,22 @@ const context: BindContext = {
   },
 };
 
-const wrappedBindMap = curryRight(bindMap)(context);
-const wrappedBindArray = curryRight(bindArray)(context);
-export { wrappedBindMap as bindMap, wrappedBindArray as bindArray };
-export { bindMap as _bindMap, bindArray as _bindArray };
+export function bindMap<R extends JSONObject = JSONObject>(
+  y: Y.Map<YJSON>,
+): BoundMap<R> {
+  return bindMapWithContext<R>(y, context);
+}
+
+export function bindArray<R extends JSON = JSON>(
+  y: Y.Array<YJSON>,
+): BoundArray<R> {
+  return bindArrayWithContext<R>(y, context);
+}
+
+export {
+  bindMapWithContext as _bindMap,
+  bindArrayWithContext as _bindArray,
+};
 export { $Y } from "./symbol.ts";
 export type * from "./types.ts";
 export * from "./mobxify.ts";
