@@ -8,9 +8,9 @@ import type {
   JSONObject,
   JSONPrimitive,
   YJSON,
-} from "./types";
-import { bindMap as bindMapWithContext } from "./map";
-import { bindArray as bindArrayWithContext } from "./array";
+} from "./types.ts";
+import { bindMap as bindMapWithContext } from "./map.ts";
+import { bindArray as bindArrayWithContext } from "./array.ts";
 
 const context: BindContext = {
   cache: new WeakMap(),

@@ -1,5 +1,5 @@
 import * as Y from 'yjs';
-import type { $Y } from './symbol';
+import type { $Y } from './symbol.ts';
 
 export type JSONPrimitive = string | number | boolean | null;
 export type JSONObject = { [key: string]: JSON };
@@ -20,4 +20,3 @@ export type BindContext = {
   yFromJS(value: unknown): YJSON;
   transact(y: Y.AbstractType<any>, operation: () => void): void;
 }
-
