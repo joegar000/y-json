@@ -1,17 +1,22 @@
 import { jest } from "@jest/globals";
 import * as Y from "yjs";
 
-import { $Y, bindMap } from "../index.ts";
+import { $Y, bindMap, type YJSON } from "../index.ts";
 
 describe("bindMap", () => {
   test("reads and writes JSON values", () => {
-    const yMap = new Y.Doc().getMap("root");
+    type Value = {
+      name: string;
+      profile: { active: boolean };
+    };
+    const yMap = new Y.Doc().getMap<YJSON>("root");
     yMap.set("name", "Ada");
-    const map = bindMap(yMap);
+    const map = bindMap<Value>(yMap);
+    const writableMap: Value = map;
 
     expect(map.name).toBe("Ada");
 
-    map.profile = { active: true };
+    writableMap.profile = { active: true };
 
     expect(map.profile.active).toBe(true);
     expect(yMap.toJSON()).toEqual({
@@ -21,7 +26,7 @@ describe("bindMap", () => {
   });
 
   test("deletes properties from the Y.Map", () => {
-    const yMap = new Y.Doc().getMap("root");
+    const yMap = new Y.Doc().getMap<YJSON>("root");
     yMap.set("name", "Ada");
     const map = bindMap(yMap);
 
@@ -32,7 +37,7 @@ describe("bindMap", () => {
   });
 
   test("exposes keys and the underlying Y.Map", () => {
-    const yMap = new Y.Doc().getMap("root");
+    const yMap = new Y.Doc().getMap<YJSON>("root");
     yMap.set("name", "Ada");
     yMap.set("active", true);
     const map = bindMap(yMap);
@@ -42,10 +47,10 @@ describe("bindMap", () => {
   });
 
   test("rejects non-JSON values", () => {
-    const map = bindMap(new Y.Doc().getMap("root"));
+    const map = bindMap(new Y.Doc().getMap<YJSON>("root"));
 
     expect(() => {
-      map.callback = jest.fn();
+      Reflect.set(map, "callback", jest.fn());
     }).toThrow(TypeError);
   });
 });

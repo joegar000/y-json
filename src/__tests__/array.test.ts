@@ -1,27 +1,31 @@
 import * as Y from "yjs";
 
-import { $Y, bindArray } from "../index.ts";
+import { $Y, bindArray, type JSON, type YJSON } from "../index.ts";
 
-function createBoundArray(values = []) {
-  const yArray = new Y.Doc().getArray("root");
+function createBoundArray<T extends JSON>(values: YJSON[]) {
+  const yArray = new Y.Doc().getArray<YJSON>("root");
   yArray.insert(0, values);
-  return { array: bindArray(yArray), yArray };
+  return { array: bindArray<T>(yArray), yArray };
 }
 
 describe("bindArray", () => {
   test("reads, replaces, and appends values by index", () => {
-    const { array, yArray } = createBoundArray([1, 2]);
+    type Value = number | { label: string };
+    const { array, yArray } = createBoundArray<Value>([1, 2]);
+    const writableArray: Value[] = array;
 
-    array[1] = { label: "two" };
-    array[2] = 3;
+    writableArray[1] = { label: "two" };
+    writableArray[2] = 3;
 
-    expect(array[1].label).toBe("two");
+    const value = array[1];
+    if (typeof value === "number") throw new TypeError("Expected an object");
+    expect(value.label).toBe("two");
     expect([...array]).toEqual([1, { label: "two" }, 3]);
     expect(yArray.toJSON()).toEqual([1, { label: "two" }, 3]);
   });
 
   test("supports adding and removing values at both ends", () => {
-    const { array, yArray } = createBoundArray([1, 2]);
+    const { array, yArray } = createBoundArray<number>([1, 2]);
 
     expect(array.push(3)).toBe(3);
     expect(array.unshift(0)).toBe(4);
@@ -33,7 +37,7 @@ describe("bindArray", () => {
   });
 
   test("splices values", () => {
-    const { array } = createBoundArray([1, 2, 3, 4]);
+    const { array } = createBoundArray<number | string>([1, 2, 3, 4]);
 
     const removed = array.splice(1, 2, "two");
 
@@ -42,7 +46,7 @@ describe("bindArray", () => {
   });
 
   test("reverses, sorts, and fills values", () => {
-    const { array } = createBoundArray([3, 1, 2]);
+    const { array } = createBoundArray<number>([3, 1, 2]);
 
     expect(array.reverse()).toBe(array);
     expect([...array]).toEqual([2, 1, 3]);
@@ -55,14 +59,14 @@ describe("bindArray", () => {
   });
 
   test("copies values within the array", () => {
-    const { array } = createBoundArray([1, 2, 3, 4]);
+    const { array } = createBoundArray<number>([1, 2, 3, 4]);
 
     expect(array.copyWithin(1, 2)).toBe(array);
     expect([...array]).toEqual([1, 3, 4, 4]);
   });
 
   test("allows truncation but rejects sparse positions", () => {
-    const { array } = createBoundArray([1, 2, 3]);
+    const { array } = createBoundArray<number>([1, 2, 3]);
 
     array.length = 2;
 
@@ -76,7 +80,7 @@ describe("bindArray", () => {
   });
 
   test("exposes its keys and underlying Y.Array", () => {
-    const { array, yArray } = createBoundArray([1, 2]);
+    const { array, yArray } = createBoundArray<number>([1, 2]);
 
     expect(Object.keys(array)).toEqual(["0", "1"]);
     expect(array[$Y]).toBe(yArray);
