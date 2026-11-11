@@ -8,6 +8,7 @@ import type {
 import { $Y } from "./symbol.ts";
 import { createAtom, type IAtom, transaction } from "mobx";
 import { getArrayIndex } from "./array.ts";
+import { getY } from "./backing.ts";
 
 const $mobxified = Symbol();
 
@@ -28,7 +29,7 @@ export function mobxify<O>(obj: O): O {
 const cache = new WeakMap<BoundJSON<any>, BoundJSON<any>>();
 
 function mobxifyMap(map: BoundMap<JSONObject>): typeof map {
-  const y = map[$Y];
+  const y = getY(map);
   const propertyAtoms = new Map<string, IAtom>();
   const keysAtom = createAtom("Y.Map.keys()");
   const getPropertyAtom = (property: string) => {
@@ -75,7 +76,7 @@ function mobxifyMap(map: BoundMap<JSONObject>): typeof map {
 }
 
 function mobxifyArray<B extends BoundArray<JSON>>(arr: B): B {
-  const y = arr[$Y];
+  const y = getY(arr);
   const indexAtoms = new Map<string, IAtom>();
   const lengthAtom = createAtom("Y.Array.length");
   const getIndexAtom = (property: string) => {

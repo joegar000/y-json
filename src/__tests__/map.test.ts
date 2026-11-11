@@ -12,11 +12,10 @@ describe("bindMap", () => {
     const yMap = new Y.Doc().getMap<YJSON>("root");
     yMap.set("name", "Ada");
     const map = bindMap<Value>(yMap);
-    const writableMap: Value = map;
 
     expect(map.name).toBe("Ada");
 
-    writableMap.profile = { active: true };
+    map.profile = { active: true };
 
     expect(map.profile.active).toBe(true);
     expect(yMap.toJSON()).toEqual({

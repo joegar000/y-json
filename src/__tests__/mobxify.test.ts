@@ -63,8 +63,7 @@ describe("mobxify", () => {
   test("mobxifies nested values", () => {
     type Value = { profile: { name: string } };
     const map = bindMap<Value>(new Y.Doc().getMap<YJSON>("root"));
-    const writableMap: Value = map;
-    writableMap.profile = { name: "Ada" };
+    map.profile = { name: "Ada" };
     const mobxMap = mobxify(map);
 
     expect(mobxMap.profile).toBe(mobxMap.profile);

@@ -29,8 +29,7 @@ describe("Yjs backing values", () => {
     type Value = { profile: { name: string } };
     const yMap = new Y.Doc().getMap<YJSON>("root");
     const map = bindMap<Value>(yMap);
-    const writableMap: Value = map;
-    writableMap.profile = { name: "Ada" };
+    map.profile = { name: "Ada" };
     const mobxMap = mobxify(map);
 
     expect(getY(map.profile)).toBe(yMap.get("profile"));

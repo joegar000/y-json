@@ -12,10 +12,9 @@ describe("bindArray", () => {
   test("reads, replaces, and appends values by index", () => {
     type Value = number | { label: string };
     const { array, yArray } = createBoundArray<Value>([1, 2]);
-    const writableArray: Value[] = array;
 
-    writableArray[1] = { label: "two" };
-    writableArray[2] = 3;
+    array[1] = { label: "two" };
+    array[2] = 3;
 
     const value = array[1];
     if (typeof value === "number") throw new TypeError("Expected an object");
