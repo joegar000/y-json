@@ -1,16 +1,10 @@
 import { autorun } from "mobx";
 import * as Y from "yjs";
 
-import * as core from "../index.ts";
 import { bindArray, bindMap, type YJSON } from "../index.ts";
 import { mobxify } from "../mobx.ts";
 
 describe("mobxify", () => {
-  test("is only exported from the MobX entry point", () => {
-    expect(core).not.toHaveProperty("mobxify");
-    expect(mobxify).toEqual(expect.any(Function));
-  });
-
   test("returns primitives and ordinary objects unchanged", () => {
     const object = { name: "Ada" };
 

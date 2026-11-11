@@ -59,9 +59,14 @@ export function bindArray<R extends JSON = JSON>(
   return bindArrayWithContext<R>(y, context);
 }
 
-export {
-  bindMapWithContext as _bindMap,
-  bindArrayWithContext as _bindArray,
-};
 export * from "./backing.ts";
-export type * from "./types.ts";
+export type {
+  BoundArray,
+  BoundJSON,
+  BoundMap,
+  JSON,
+  JSONArray,
+  JSONObject,
+  JSONPrimitive,
+  YJSON,
+} from "./types.ts";
