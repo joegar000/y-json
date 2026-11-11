@@ -1,6 +1,6 @@
 import * as Y from "yjs";
 
-import { $Y, bindArray, type JSON, type YJSON } from "../index.ts";
+import { bindArray, getY, type JSON, type YJSON } from "../index.ts";
 
 function createBoundArray<T extends JSON>(values: YJSON[]) {
   const yArray = new Y.Doc().getArray<YJSON>("root");
@@ -86,11 +86,11 @@ describe("bindArray", () => {
     expect(yArray.toJSON()).toEqual([1, 2]);
   });
 
-  test("exposes its keys and underlying Y.Array", () => {
+  test("exposes its keys and backing Y.Array", () => {
     const { array, yArray } = createBoundArray<number>([1, 2]);
 
     expect(Object.keys(array)).toEqual(["0", "1"]);
-    expect(array[$Y]).toBe(yArray);
+    expect(getY(array)).toBe(yArray);
     expect(yArray.toJSON()).toEqual([1, 2]);
   });
 });

@@ -71,7 +71,8 @@ symbols, or `undefined` throws a `TypeError`.
 - `bindMap(yMap)` creates a JSON-like object backed by a `Y.Map`.
 - `bindArray(yArray)` creates an array-like object backed by a `Y.Array`.
 - `mobxify(value)` adds MobX observation to a bound map or array.
-- `$Y` accesses the underlying Yjs type from a bound value.
+- `getY(value)` returns the backing Yjs type or throws for an unbound value.
+- `getYSafe(value)` returns the backing Yjs type or `null`.
 
 ## Runtime support
 

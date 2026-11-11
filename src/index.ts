@@ -63,6 +63,6 @@ export {
   bindMapWithContext as _bindMap,
   bindArrayWithContext as _bindArray,
 };
-export { $Y } from "./symbol.ts";
+export * from "./backing.ts";
 export type * from "./types.ts";
 export * from "./mobxify.ts";

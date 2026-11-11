@@ -1,7 +1,7 @@
 import { jest } from "@jest/globals";
 import * as Y from "yjs";
 
-import { $Y, bindMap, type YJSON } from "../index.ts";
+import { bindMap, getY, type YJSON } from "../index.ts";
 
 describe("bindMap", () => {
   test("reads and writes JSON values", () => {
@@ -36,14 +36,14 @@ describe("bindMap", () => {
     expect(yMap.has("name")).toBe(false);
   });
 
-  test("exposes keys and the underlying Y.Map", () => {
+  test("exposes keys and the backing Y.Map", () => {
     const yMap = new Y.Doc().getMap<YJSON>("root");
     yMap.set("name", "Ada");
     yMap.set("active", true);
     const map = bindMap(yMap);
 
     expect(Object.keys(map)).toEqual(["name", "active"]);
-    expect(map[$Y]).toBe(yMap);
+    expect(getY(map)).toBe(yMap);
   });
 
   test("rejects non-JSON values", () => {
