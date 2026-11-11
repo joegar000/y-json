@@ -35,7 +35,7 @@
     "build": "npm run clean && tsc -p tsconfig.build.json",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "typecheck": "tsc",
-    "lint:package": "publint && attw --pack . --profile esm-only",
+    "lint:package": "publint && node scripts/check-package-types.mjs",
     "check": "npm run typecheck && npm test -- --runInBand && npm run lint:package",
     "prepack": "npm run build",
     "prepublishOnly": "npm run check"
