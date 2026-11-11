@@ -29,7 +29,9 @@
     "prepack": "npm run build"
   },
   "dependencies": {
-    "es-toolkit": "^1.53.2",
+    "es-toolkit": "^1.53.2"
+  },
+  "peerDependencies": {
     "mobx": "^7.1.5",
     "yjs": "^13.6.33"
   },
@@ -37,6 +39,8 @@
     "@types/jest": "^30.0.0",
     "@types/node": "^26.6.6",
     "jest": "^30.5.2",
-    "typescript": "^7.0.2"
+    "mobx": "^7.1.5",
+    "typescript": "^7.0.2",
+    "yjs": "^13.6.33"
   }
 }
