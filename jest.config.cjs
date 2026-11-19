@@ -1,8 +1,20 @@
 module.exports = {
-  extensionsToTreatAsEsm: [".ts"],
   testEnvironment: "node",
   testMatch: ["<rootDir>/src/__tests__/**/*.test.ts"],
   transform: {
-    "^.+\\.ts$": "<rootDir>/jest.transformer.cjs",
+    "^.+\\.ts$": [
+      "@swc/jest",
+      {
+        jsc: {
+          parser: {
+            syntax: "typescript",
+          },
+          target: "es2022",
+        },
+        module: {
+          type: "commonjs",
+        },
+      },
+    ],
   },
 };
